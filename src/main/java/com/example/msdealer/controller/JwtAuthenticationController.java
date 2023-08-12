@@ -1,14 +1,9 @@
 package com.example.msdealer.controller;
 
 
-import com.example.mscustomers.dto.mapper.CustomerMapper;
-import com.example.mscustomers.dto.request.CustomerRequestDto;
-import com.example.mscustomers.dto.response.AfterSignInResponseDto;
-import com.example.mscustomers.email.MailService;
-import com.example.mscustomers.entity.CustomerEntity;
-import com.example.mscustomers.model.JwtRequest;
-import com.example.mscustomers.repository.CustomerRepository;
-import com.example.mscustomers.securityconfig.JwtTokenUtil;
+import com.example.msdealer.dto.mapper.CustomerMapper;
+import com.example.msdealer.securityconfig.JwtTokenUtil;
+import com.example.msdealer.service.impl.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,7 +1,8 @@
-package com.example.msdealer.service;
+package com.example.msdealer.service.impl;
 
 import com.example.mscustomers.entity.CustomerEntity;
 import com.example.mscustomers.repository.CustomerRepository;
+import com.example.msdealer.repository.DealerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
-    private final CustomerRepository repository;
+    private final DealerRepository dealerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

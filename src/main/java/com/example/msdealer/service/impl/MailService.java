@@ -1,4 +1,4 @@
-package com.example.msdealer.email;
+package com.example.msdealer.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

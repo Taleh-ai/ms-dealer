@@ -13,12 +13,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "products")
-public class ProductCategoryEntity {
+@Table(name = "dealers")
+public class DealerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String category;
+    private Long id;
+    private String company_name;
+    private String category;
+    private String name;
+    private String location;
+    private String contactNumber;
+    private String email;
+    private String password;
+    private String role;
     @OneToMany
-    List<ProductEntity> productEntities;
+    List<UserEntity> userEntity;
 }
