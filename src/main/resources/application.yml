@@ -1,0 +1,41 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1234
+  mail:
+      host: smtp-relay.brevo.com
+      port: 587
+      username: talehrzayev000@gmail.com
+      password: T1yv4kNEpU5dQqtA
+      properties:
+        mail:
+          smtp:
+            auth: true
+            connectiontimeout: 5000
+            timeout: 5000
+            writetimeout: 5000
+            starttls:
+              enable: true
+            socketFactory:
+              port: 465
+              class: javax.net.ssl.SSLSocketFactory
+
+jwt:
+    secret: "Matrix"
+    get:
+      token:
+        uri: "/authenticate"
+
+    # Swagger-UI custom path
+springdoc:
+    swagger-ui:
+      path: "/swagger-ui.html"
+

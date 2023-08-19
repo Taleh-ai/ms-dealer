@@ -23,10 +23,10 @@ public class ProductEntity {
     private String  description;
     private int quantity;
     private double amount;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     ProductCategoryEntity productCategoryEntity;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealer_id")
     DealerEntity dealerEntity;
 

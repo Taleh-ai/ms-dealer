@@ -1,6 +1,6 @@
 package com.example.msdealer.securityconfig;
 
-import com.example.mscustomers.service.JwtUserDetailsService;
+import com.example.msdealer.service.impl.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
