@@ -41,7 +41,7 @@ public class JwtAuthenticationController {
 	private final JwtTokenUtil jwtTokenUtil;
 	private final MailService mailService;
 	private final UserDetailsService jwtInMemoryUserDetailsService;
-
+	private final PasswordEncoder passwordEncoder;
     private final DealerRepository  dealerRepository;
     private final EmployeeRepository employeeRepository;
 	private final DealerMapper dealerMapper;
@@ -90,6 +90,7 @@ public class JwtAuthenticationController {
         if (entity == null) {
 			EmployeEntity employeEntity = employeeMapper.fromDto(employeeRequestDTO);
 			employeEntity.setDealerEntity(dealerEntity);
+			employeEntity.setPassword(passwordEncoder.encode(employeeRequestDTO.getPassword()));
             employeeRepository.save(employeEntity);
             mailService.mailSender(employeeRequestDTO.getEmail());
             return ResponseEntity.ok("You signed!");

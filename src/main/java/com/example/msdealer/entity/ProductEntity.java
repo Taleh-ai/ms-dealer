@@ -1,7 +1,9 @@
 package com.example.msdealer.entity;
 
+import com.example.msdealer.util.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +15,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "products")
-public class ProductEntity {
+@Builder
+public class ProductEntity extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

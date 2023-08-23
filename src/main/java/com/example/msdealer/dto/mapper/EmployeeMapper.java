@@ -1,42 +1,46 @@
 package com.example.msdealer.dto.mapper;
 
-import com.example.msdealer.dto.enumeration.Roles;
-import com.example.msdealer.dto.request.DealerRequestDTO;
 import com.example.msdealer.dto.request.EmployeeRequestDTO;
-import com.example.msdealer.dto.response.DealerResponseDto;
 import com.example.msdealer.dto.response.EmployeeResponseDto;
-import com.example.msdealer.entity.DealerEntity;
 import com.example.msdealer.entity.EmployeEntity;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper
-@RequiredArgsConstructor
+@Component
 public class EmployeeMapper {
-    private final PasswordEncoder passwordEncoder;
-    public EmployeEntity fromDto(EmployeeRequestDTO dto){
-        return EmployeEntity.builder()
-                .surname(dto.getSurname())
-                .name(dto.getName())
-                .email(dto.getEmail())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .role(dto.getRole())
+    public EmployeEntity fromDto(EmployeeRequestDTO employeeRequestDTO) {
+     return    EmployeEntity.builder()
+                .name(employeeRequestDTO.getName())
+                .surname(employeeRequestDTO.getSurname())
+                .role(employeeRequestDTO.getRole())
+                .email(employeeRequestDTO.getEmail())
                 .build();
     }
 
     public EmployeeResponseDto toDto(EmployeEntity entity){
-        return EmployeeResponseDto.builder()
-                .surname(entity.getSurname())
+     return    EmployeeResponseDto.builder()
                 .name(entity.getName())
-                .email(entity.getEmail())
+                .surname(entity.getSurname())
                 .role(entity.getRole())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
                 .dealerId(entity.getDealerEntity().getId())
                 .id(entity.getId())
+             .createdBy(entity.getCreatedBy())
+             .createdDate(entity.getCreatedDate())
+             .lastModifiedBy(entity.getLastModifiedBy())
+             .lastModifiedDate(entity.getLastModifiedDate())
                 .build();
+    }
+    public List<EmployeeResponseDto> toDtoList(List<EmployeEntity> employeEntityList){
+        EmployeeMapper employeeMapper = new EmployeeMapper();
+     return    employeEntityList.stream().map(employeeMapper::toDto).collect(Collectors.toList());
     }
 }

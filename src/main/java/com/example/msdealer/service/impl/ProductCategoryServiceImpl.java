@@ -4,6 +4,7 @@ import com.example.msdealer.dto.mapper.ProductCategoryMapper;
 import com.example.msdealer.dto.request.ProductCategoryRequsetDto;
 import com.example.msdealer.dto.response.ProductCategoryResponseDto;
 import com.example.msdealer.entity.ProductCategoryEntity;
+import com.example.msdealer.exception.MethodArgumentNotValidException;
 import com.example.msdealer.repository.ProductCategoryRepository;
 import com.example.msdealer.service.ProductCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     private final ProductCategoryMapper productCategoryMapper;
     @Override
     public List<ProductCategoryResponseDto> getAllProductCategories() {
-    return     productCategoryMapper.toDTOList(productCategoryRepository.findAll());
+
+        return   productCategoryMapper.toDtoList(productCategoryRepository.findAll());
     }
 
     @Override
@@ -27,7 +29,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     }
 
     @Override
-    public void createProductCategory(ProductCategoryRequsetDto productCategory) {
+    public void createProductCategory(ProductCategoryRequsetDto productCategory) throws MethodArgumentNotValidException {
+        if(productCategoryRepository.existsByCategoryIgnoreCase(productCategory.getCategory())){
+            throw new MethodArgumentNotValidException("Category already exist");
+        }
         ProductCategoryEntity productCategoryEntity = productCategoryMapper.fromDto(productCategory);
         productCategoryRepository.save(productCategoryEntity);
     }

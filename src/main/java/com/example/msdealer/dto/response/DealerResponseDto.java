@@ -6,11 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -26,4 +30,6 @@ public class DealerResponseDto {
     private String email;
     private String password;
     private Roles role;
+    private Date creationDate;
+    private Date updateDate;
 }

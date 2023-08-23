@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -23,4 +24,8 @@ public class ProductResponseDto {
     private double amount;
     private Long category_id;
     private Long dealer_id;
+    protected String createdBy;
+    protected LocalDateTime createdDate;
+    protected String lastModifiedBy;
+    protected LocalDateTime lastModifiedDate;
 }

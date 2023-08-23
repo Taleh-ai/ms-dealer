@@ -4,10 +4,10 @@ import com.example.msdealer.dto.enumeration.Roles;
 import com.example.msdealer.dto.request.DealerRequestDTO;
 import com.example.msdealer.dto.response.DealerResponseDto;
 import com.example.msdealer.entity.DealerEntity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +39,8 @@ public class DealerMapper {
                 .location(entity.getLocation())
                 .email(entity.getEmail())
                 .role(entity.getRole())
+                .creationDate(entity.getCreationDate())
+                .updateDate(entity.getUpdateDate())
                 .build();
     }
 }
