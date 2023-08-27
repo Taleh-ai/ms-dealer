@@ -25,19 +25,20 @@ public class DealerServiceImpl implements DealerService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        DealerEntity dealerEntity = (DealerEntity)userDetails;;
 
-        dealerEntity.setCompany_name(dealerRequestDTO.getCompanyName());
-        dealerEntity.setName(dealerRequestDTO.getName());
+        // Assuming DealerEntity is a custom class extending UserDetails
+        DealerEntity dealerEntity = (DealerEntity) userDetails;
+
+        dealerEntity.setCompanyName(dealerRequestDTO.getCompanyName());
         dealerEntity.setContactNumber(dealerRequestDTO.getContactNumber());
         dealerEntity.setCategory(dealerRequestDTO.getCategory());
         dealerEntity.setLocation(dealerRequestDTO.getLocation());
         dealerEntity.setEmail(dealerRequestDTO.getEmail());
 
-        if (!passwordEncoder.matches(dealerRequestDTO.getPassword(),dealerEntity.getPassword())) {
+        if (!passwordEncoder.matches(dealerRequestDTO.getPassword(), dealerEntity.getPassword())) {
             dealerEntity.setPassword(passwordEncoder.encode(dealerRequestDTO.getPassword()));
-        }else {
-            throw new MethodArgumentNotValidException("New password can't be same with old password");
+        } else {
+            throw new MethodArgumentNotValidException("New password can't be the same as the old password");
         }
 
         dealerRepository.save(dealerEntity);

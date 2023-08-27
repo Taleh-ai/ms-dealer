@@ -43,4 +43,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         productCategoryEntity.setCategory(productCategory.getCategory());
         productCategoryRepository.save(productCategoryEntity);
     }
+
+    @Override
+    public void deleteProductCategory(Long id) {
+        productCategoryRepository.deleteById(id);
+    }
 }

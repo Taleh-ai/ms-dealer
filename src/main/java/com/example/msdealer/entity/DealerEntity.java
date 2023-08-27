@@ -24,10 +24,11 @@ public class DealerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String company_name;
+    @Column(name = "company_name")
+    private String companyName;
     private String category;
-    private String name;
     private String location;
+    @Column(name = "contact_number")
     private String contactNumber;
     private String email;
     private String password;

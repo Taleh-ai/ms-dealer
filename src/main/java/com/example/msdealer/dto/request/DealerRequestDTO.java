@@ -24,8 +24,6 @@ public class DealerRequestDTO {
     @NotEmpty(message = "The Category should not be empty!")
     private String category;
 
-    @NotEmpty(message = "The Name should not be empty!")
-    private String name;
 
     @NotEmpty(message = "The Location should not be empty!")
     private String location;

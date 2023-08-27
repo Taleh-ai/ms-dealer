@@ -18,8 +18,7 @@ public class DealerMapper {
     private final PasswordEncoder passwordEncoder;
     public DealerEntity fromDto(DealerRequestDTO dto){
         return DealerEntity.builder()
-                .company_name(dto.getCompanyName())
-                .name(dto.getName())
+                .companyName(dto.getCompanyName())
                 .contactNumber(dto.getContactNumber())
                 .category(dto.getCategory())
                 .location(dto.getLocation())
@@ -31,9 +30,8 @@ public class DealerMapper {
 
     public DealerResponseDto toDto(DealerEntity entity){
         return DealerResponseDto.builder()
-                .companyName(entity.getCompany_name())
+                .companyName(entity.getCompanyName())
                 .id(entity.getId())
-                .name(entity.getName())
                 .contactNumber(entity.getContactNumber())
                 .category(entity.getCategory())
                 .location(entity.getLocation())

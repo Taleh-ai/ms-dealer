@@ -2,7 +2,6 @@ package com.example.msdealer.service.impl;
 
 import com.example.msdealer.dto.mapper.ProductMapper;
 import com.example.msdealer.dto.request.ProductRequestDto;
-import com.example.msdealer.dto.response.ProductResponseDto;
 import com.example.msdealer.entity.DealerEntity;
 import com.example.msdealer.entity.EmployeEntity;
 import com.example.msdealer.entity.ProductEntity;
@@ -26,20 +25,20 @@ public class ProductServiceImpl implements ProductService {
     private final ProductCategoryRepository productCategoryRepository;
     private final DealerRepository dealerRepository;
     @Override
-    public List<ProductResponseDto> getAllProducts() {
+    public List<ProductEntity> getAllProducts() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             if((DealerEntity)userDetails instanceof DealerEntity ){
-                return productMapper.toDTOList(productRepository.findAllByDealerEntity((DealerEntity)userDetails));
+                return productRepository.findAllByDealerEntity((DealerEntity)userDetails);
             }else {
-                return productMapper.toDTOList(productRepository.findAllByDealerEntity(((EmployeEntity)userDetails).getDealerEntity()));
+                return productRepository.findAllByDealerEntity(((EmployeEntity)userDetails).getDealerEntity());
             }
     }
 
     @Override
-    public ProductResponseDto getProductById(Long id) {
-        return productMapper.toDto(productRepository.getById(id));
+    public ProductEntity getProductById(Long id) {
+        return productRepository.getById(id);
     }
 
     @Override
@@ -58,5 +57,11 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setBrand(productRequestDto.getBrand());
         productEntity.setDescription(productRequestDto.getDescription());
         productEntity.setQuantity(productRequestDto.getQuantity());
+        productRepository.save(productEntity);
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 }

@@ -15,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "employies")
+@Table(name = "employees")
 @Builder
 public class EmployeEntity  extends Auditable {
     @Id

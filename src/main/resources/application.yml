@@ -29,13 +29,14 @@ spring:
               class: javax.net.ssl.SSLSocketFactory
 
 jwt:
-    secret: "Matrix"
-    get:
-      token:
-        uri: "/authenticate"
+  secret: "Matrix"
+  get:
+    token:
+      uri: "/authenticate"
 
     # Swagger-UI custom path
 springdoc:
     swagger-ui:
       path: "/swagger-ui.html"
-
+server:
+  port: 8081

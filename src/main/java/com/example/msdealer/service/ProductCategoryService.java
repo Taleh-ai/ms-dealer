@@ -11,6 +11,6 @@ public interface ProductCategoryService {
     public ProductCategoryResponseDto getProductCategoryById(Long id);
     public void createProductCategory(ProductCategoryRequsetDto productCategory) throws MethodArgumentNotValidException;
     public void updateProductCategory(Long id,ProductCategoryRequsetDto productCategory);
-
+    public void deleteProductCategory(Long id);
 
 }
