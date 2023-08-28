@@ -1,7 +1,6 @@
 package com.example.msdealer.controller;
 
 
-import com.example.msdealer.dto.enumeration.Roles;
 import com.example.msdealer.dto.mapper.DealerMapper;
 import com.example.msdealer.dto.mapper.EmployeeMapper;
 import com.example.msdealer.dto.request.DealerRequestDTO;
@@ -76,8 +75,6 @@ public class JwtAuthenticationController {
 		if (!dealerRepository.existsByEmail(dto.getEmail())) {
 			log.info(dto.toString());
 			DealerEntity dealerEntity = dealerMapper.fromDto(dto);
-			log.info(dealerEntity.toString());
-			dealerEntity.setRole(Roles.ADMIN);
 			log.info(dealerEntity.toString());
 			dealerRepository.save(dealerEntity);
 			//mailService.mailSender(dto.getEmail());

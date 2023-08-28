@@ -41,6 +41,4 @@ public class DealerRequestDTO {
     @ValidPassword
     private String password;
 
-    private Roles role;
-
 }

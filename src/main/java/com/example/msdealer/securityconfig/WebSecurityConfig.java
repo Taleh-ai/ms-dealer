@@ -59,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			"/webjars/**",
 			"/v3/api-docs/**",
 			"/swagger-ui/**",
-			"/signup",
-			"/signin"
+			"/v1/signup",
+			"/v1/signin"
 	};
 
 	@Override
@@ -69,10 +69,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				.authorizeRequests()
 				.antMatchers(AUTH_WHITELIST).permitAll()
-				.antMatchers("/employee/**").hasAnyRole("ADMIN")
-				.antMatchers("/dealer/**").hasAnyRole("ADMIN")
-				.antMatchers("/product/**").hasAnyRole("ADMIN","STOCK_MANAGER")
-				.antMatchers("/register").hasAnyRole("ADMIN")
+				.antMatchers("/v1/employee/**").hasAnyRole("ADMIN")
+				.antMatchers("/v1/dealer/**").hasAnyRole("ADMIN")
+				.antMatchers("/v1/product/**").hasAnyRole("ADMIN","STOCK_MANAGER")
+				.antMatchers("/v1/register").hasAnyRole("ADMIN")
 				.anyRequest().authenticated().and().
 				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
