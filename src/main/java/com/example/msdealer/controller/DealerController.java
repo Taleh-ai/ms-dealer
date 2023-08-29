@@ -3,7 +3,7 @@ package com.example.msdealer.controller;
 import com.example.msdealer.dto.request.DealerRequestDTO;
 import com.example.msdealer.dto.response.DealerResponseDto;
 import com.example.msdealer.exception.MethodArgumentNotValidException;
-import com.example.msdealer.handler.SuccessDetails;
+import com.example.msdealer.exception.handler.SuccessDetails;
 import com.example.msdealer.service.impl.DealerServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;

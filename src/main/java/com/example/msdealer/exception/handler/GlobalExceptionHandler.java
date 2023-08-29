@@ -1,4 +1,4 @@
-package com.example.msdealer.handler;
+package com.example.msdealer.exception.handler;
 
 
 import com.example.msdealer.exception.MethodArgumentNotValidException;

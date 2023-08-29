@@ -1,4 +1,4 @@
-package com.example.msdealer.handler;
+package com.example.msdealer.exception.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

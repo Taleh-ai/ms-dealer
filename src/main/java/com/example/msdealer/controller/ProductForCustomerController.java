@@ -2,7 +2,7 @@ package com.example.msdealer.controller;
 
 import com.example.msdealer.dto.response.ProductResponseDto;
 import com.example.msdealer.exception.ResourceNotFoundException;
-import com.example.msdealer.handler.SuccessDetails;
+import com.example.msdealer.exception.handler.SuccessDetails;
 import com.example.msdealer.service.ProductForCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/")
+@RequestMapping("v1/product-feign")
 public class ProductForCustomerController {
     private final ProductForCustomerService productForCustomerService;
 
@@ -26,7 +26,7 @@ public class ProductForCustomerController {
         return  ResponseEntity.ok(new SuccessDetails<>(products, HttpStatus.OK.value(),true));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<SuccessDetails<ProductResponseDto>> getProductById(@PathVariable Long id) throws ResourceNotFoundException {
         ProductResponseDto product = productForCustomerService.getProductById(id);
         return  ResponseEntity.ok(new SuccessDetails<>(product, HttpStatus.OK.value(),true));

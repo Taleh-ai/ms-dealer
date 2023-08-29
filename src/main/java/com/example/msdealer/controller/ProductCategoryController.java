@@ -1,11 +1,9 @@
 package com.example.msdealer.controller;
 
-import com.example.msdealer.dto.request.EmployeeRequestDTO;
 import com.example.msdealer.dto.request.ProductCategoryRequsetDto;
-import com.example.msdealer.dto.response.EmployeeResponseDto;
 import com.example.msdealer.dto.response.ProductCategoryResponseDto;
 import com.example.msdealer.exception.MethodArgumentNotValidException;
-import com.example.msdealer.handler.SuccessDetails;
+import com.example.msdealer.exception.handler.SuccessDetails;
 import com.example.msdealer.service.impl.ProductCategoryServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
