@@ -1,4 +1,4 @@
-package com.example.msdealer.model;
+package com.example.msdealer.dto.response;
 
 import java.io.Serializable;
 

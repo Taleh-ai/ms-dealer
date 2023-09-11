@@ -1,12 +1,9 @@
-package com.example.msdealer.dto.mapper;
+package com.example.msdealer.mapper;
 
 import com.example.msdealer.dto.request.EmployeeRequestDTO;
 import com.example.msdealer.dto.response.EmployeeResponseDto;
 import com.example.msdealer.entity.EmployeEntity;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

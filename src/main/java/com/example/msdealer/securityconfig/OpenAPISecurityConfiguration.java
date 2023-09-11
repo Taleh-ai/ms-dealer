@@ -1,4 +1,4 @@
-package com.example.msdealer.config;
+package com.example.msdealer.securityconfig;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;

@@ -1,11 +1,12 @@
 package com.example.msdealer.service.impl;
 
-import com.example.msdealer.dto.mapper.EmployeeMapper;
+import com.example.msdealer.mapper.EmployeeMapper;
 import com.example.msdealer.dto.request.EmployeeRequestDTO;
 import com.example.msdealer.dto.response.EmployeeResponseDto;
 import com.example.msdealer.entity.DealerEntity;
 import com.example.msdealer.entity.EmployeEntity;
 import com.example.msdealer.exception.MethodArgumentNotValidException;
+import com.example.msdealer.repository.DealerRepository;
 import com.example.msdealer.repository.EmployeeRepository;
 import com.example.msdealer.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmployeeMapper employeeMapper;
+    private final DealerRepository dealerRepository;
     @Override
     public void updateEmployee(Long id,EmployeeRequestDTO employeeRequestDTO) throws MethodArgumentNotValidException {
      EmployeEntity employeEntity= employeeRepository.getById(id);
@@ -52,9 +54,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeResponseDto> getEmployees() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        DealerEntity dealerEntity = (DealerEntity)userDetails;
+        DealerEntity dealerEntity = dealerRepository.findDealerEntityByEmail(userDetails.getUsername());
         List<EmployeEntity> employeEntityList = employeeRepository.findEmployeEntitiesByDealerEntity(dealerEntity);
         return employeeMapper.toDtoList(employeEntityList);
     }

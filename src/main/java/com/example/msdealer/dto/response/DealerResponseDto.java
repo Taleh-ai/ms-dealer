@@ -24,11 +24,9 @@ public class DealerResponseDto {
     private Long id;
     private String companyName;
     private String category;
-    private String name;
     private String location;
     private String contactNumber;
     private String email;
-    private String password;
     private Roles role;
     private Date creationDate;
     private Date updateDate;

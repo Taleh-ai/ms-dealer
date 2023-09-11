@@ -1,6 +1,6 @@
 package com.example.msdealer.service.impl;
 
-import com.example.msdealer.dto.mapper.ProductCategoryMapper;
+import com.example.msdealer.mapper.ProductCategoryMapper;
 import com.example.msdealer.dto.request.ProductCategoryRequsetDto;
 import com.example.msdealer.dto.response.ProductCategoryResponseDto;
 import com.example.msdealer.entity.ProductCategoryEntity;

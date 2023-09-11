@@ -14,8 +14,9 @@ public class ProductResponseDto {
     private String name;
     private String brand;
     private String description;
-    private double amount;
+    private Double amount;
     private String category;
     private String  dealer;
+    private Long dealerId;
     private String stockSituation;
 }

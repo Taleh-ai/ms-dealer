@@ -20,6 +20,6 @@ public class ProductFilterRequestDto {
     private Integer maxQuantity;
     private Double minAmount;
     private Double maxAmount;
-    private Long categoryId;
-    private Long dealerId;
+    private Long categoryName;
+    private Long dealerName;
 }

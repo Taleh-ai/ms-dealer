@@ -1,4 +1,4 @@
-package com.example.msdealer.dto.mapper;
+package com.example.msdealer.mapper;
 
 
 import com.example.msdealer.dto.request.ProductCategoryRequsetDto;

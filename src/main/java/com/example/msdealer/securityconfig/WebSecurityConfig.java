@@ -1,5 +1,6 @@
 package com.example.msdealer.securityconfig;
 
+import com.example.msdealer.dto.enumeration.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			"/v3/api-docs/**",
 			"/swagger-ui/**",
 			"/v1/signup",
-			"/v1/signin"
+			"/v1/signin",
+
 	};
 
 	@Override
@@ -69,11 +71,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				.authorizeRequests()
 				.antMatchers(AUTH_WHITELIST).permitAll()
-				.antMatchers("/v1/employee/**").hasAnyRole("ADMIN")
-				.antMatchers("/v1/dealer/**").hasAnyRole("ADMIN")
-				.antMatchers("/v1/product/**").hasAnyRole("ADMIN","STOCK_MANAGER")
-				.antMatchers("/v1/register").hasAnyRole("ADMIN")
-				.anyRequest().authenticated().and().
+				.antMatchers("/v1/employee/**").hasRole("ADMIN")
+				.antMatchers("/v1/dealer/**").hasRole("ADMIN")
+				.antMatchers("/v1/product/**").hasAnyRole("ADMIN", "STOCK_MANAGER")
+				.antMatchers("/v1/register").hasRole("ADMIN")
+				.anyRequest().authenticated()
+				.and().
 				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

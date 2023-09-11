@@ -1,4 +1,4 @@
-package com.example.msdealer.dto.mapper;
+package com.example.msdealer.mapper;
 
 import com.example.msdealer.dto.enumeration.Roles;
 import com.example.msdealer.dto.request.DealerRequestDTO;
@@ -24,7 +24,7 @@ public class DealerMapper {
                 .location(dto.getLocation())
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
-                .role(Roles.valueOf("Admin"))
+                .role(Roles.ADMIN)
                 .build();
     }
 

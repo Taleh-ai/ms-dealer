@@ -1,6 +1,6 @@
 package com.example.msdealer.service.impl;
 
-import com.example.msdealer.dto.mapper.DealerMapper;
+import com.example.msdealer.mapper.DealerMapper;
 import com.example.msdealer.dto.request.DealerRequestDTO;
 import com.example.msdealer.dto.response.DealerResponseDto;
 import com.example.msdealer.entity.DealerEntity;
@@ -25,9 +25,7 @@ public class DealerServiceImpl implements DealerService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        // Assuming DealerEntity is a custom class extending UserDetails
-        DealerEntity dealerEntity = (DealerEntity) userDetails;
+        DealerEntity dealerEntity = dealerRepository.findDealerEntityByEmail(userDetails.getUsername());
 
         dealerEntity.setCompanyName(dealerRequestDTO.getCompanyName());
         dealerEntity.setContactNumber(dealerRequestDTO.getContactNumber());
@@ -47,18 +45,14 @@ public class DealerServiceImpl implements DealerService {
     @Override
     public void deleteDealer() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        DealerEntity dealerEntity = (DealerEntity)userDetails;
-        dealerRepository.deleteById(dealerEntity.getId());
+        dealerRepository.deleteById(dealerRepository.findDealerEntityByEmail(userDetails.getUsername()).getId());
     }
 
     @Override
     public DealerResponseDto getDealer() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        DealerEntity dealerEntity = (DealerEntity)userDetails;
-        return  dealerMapper.toDto(dealerEntity);
+        return dealerMapper.toDto(dealerRepository.findDealerEntityByEmail(userDetails.getUsername()));
     }
 }

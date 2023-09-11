@@ -26,7 +26,7 @@ public class ProductEntity extends Auditable {
     private String brand;
     private String  description;
     private int quantity;
-    private double amount;
+    private Double price;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     ProductCategoryEntity productCategoryEntity;

@@ -1,11 +1,14 @@
 package com.example.msdealer.service.impl;
 
-import com.example.msdealer.dto.mapper.ProductMapper;
+import com.example.msdealer.exception.handler.SuccessDetails;
+import com.example.msdealer.mapper.ProductMapper;
 import com.example.msdealer.dto.response.ProductResponseDto;
+import com.example.msdealer.entity.ProductEntity;
 import com.example.msdealer.exception.ResourceNotFoundException;
 import com.example.msdealer.repository.ProductRepository;
 import com.example.msdealer.service.ProductForCustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,27 @@ public class ProductForCustomerServiceImpl implements ProductForCustomerService 
         if(productRepository.existsById(id)) {
             return productMapper.toDto(productRepository.getById(id));
         }    else {
+            throw  new ResourceNotFoundException("Product not found");
+        }
+    }
+
+    @Override
+    public void updateStock(Long id, int quantity) throws ResourceNotFoundException {
+        if(productRepository.existsById(id)){
+            ProductEntity productEntity = productRepository.getById(id);
+            productEntity.setQuantity(productEntity.getQuantity()-quantity);
+        }else {
+            throw  new ResourceNotFoundException("Product not found");
+        }
+
+    }
+
+    @Override
+    public Double getPrice(Long id) throws ResourceNotFoundException {
+        if(productRepository.existsById(id)){
+            ProductEntity productEntity = productRepository.getById(id);
+            return productEntity.getPrice();
+        }else {
             throw  new ResourceNotFoundException("Product not found");
         }
     }

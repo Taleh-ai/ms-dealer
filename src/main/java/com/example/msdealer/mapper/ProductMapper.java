@@ -1,4 +1,4 @@
-package com.example.msdealer.dto.mapper;
+package com.example.msdealer.mapper;
 
 
 import com.example.msdealer.dto.request.ProductRequestDto;
@@ -16,7 +16,7 @@ public class ProductMapper {
 
     public ProductEntity fromDto(ProductRequestDto productRequestDto){
      return    ProductEntity.builder()
-                .amount(productRequestDto.getAmount())
+                .price(productRequestDto.getAmount())
                 .brand(productRequestDto.getBrand())
                 .description(productRequestDto.getDescription())
                 .name(productRequestDto.getName())
@@ -35,20 +35,24 @@ public class ProductMapper {
 
     public ProductResponseDto toDto(ProductEntity productEntity){
         ProductResponseDto productResponseDto =     ProductResponseDto.builder()
-                .amount(productEntity.getAmount())
+                .amount(productEntity.getPrice())
                 .brand(productEntity.getBrand())
                 .description(productEntity.getDescription())
                 .name(productEntity.getName())
                 .dealer(productEntity.getDealerEntity().getCompanyName())
                 .category(productEntity.getProductCategoryEntity().getCategory())
+                .dealerId(productEntity.getDealerEntity().getId())
+                .id(productEntity.getId())
                 .build();
 
         if (productEntity.getQuantity()>=10){
             productResponseDto.setStockSituation("Has stock");
         } else if (productEntity.getQuantity()>=5) {
-            productResponseDto.setStockSituation("Product is running out");
-        }else {
+            productResponseDto.setStockSituation("Product stock is running out");
+        } else if (productEntity.getQuantity()>=1) {
             productResponseDto.setStockSituation("Last "+productEntity.getQuantity()+" product");
+        } else {
+            productResponseDto.setStockSituation("No stock");
         }
         return  productResponseDto;
 
