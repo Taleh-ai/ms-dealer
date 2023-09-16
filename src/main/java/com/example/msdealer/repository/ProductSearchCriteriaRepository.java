@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class ProductSeacrchCriteriaRepository {
+public class ProductSearchCriteriaRepository {
 
     private final EntityManager entityManager;
     private final CriteriaBuilder criteriaBuilder;
 
-    public ProductSeacrchCriteriaRepository(EntityManager entityManager) {
+    public ProductSearchCriteriaRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
         this.criteriaBuilder = entityManager.getCriteriaBuilder();
     }

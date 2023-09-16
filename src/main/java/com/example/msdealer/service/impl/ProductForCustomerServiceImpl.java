@@ -1,5 +1,6 @@
 package com.example.msdealer.service.impl;
 
+import com.example.msdealer.exception.MethodArgumentNotValidException;
 import com.example.msdealer.exception.handler.SuccessDetails;
 import com.example.msdealer.mapper.ProductMapper;
 import com.example.msdealer.dto.response.ProductResponseDto;
@@ -32,10 +33,15 @@ public class ProductForCustomerServiceImpl implements ProductForCustomerService 
     }
 
     @Override
-    public void updateStock(Long id, int quantity) throws ResourceNotFoundException {
+    public void updateStock(Long id, int quantity) throws ResourceNotFoundException, MethodArgumentNotValidException {
         if(productRepository.existsById(id)){
             ProductEntity productEntity = productRepository.getById(id);
-            productEntity.setQuantity(productEntity.getQuantity()-quantity);
+            if(productEntity.getQuantity()>=quantity){
+                productEntity.setQuantity(productEntity.getQuantity()-quantity);
+            }else{
+                throw new MethodArgumentNotValidException("Not enough stock");
+            }
+
         }else {
             throw  new ResourceNotFoundException("Product not found");
         }
