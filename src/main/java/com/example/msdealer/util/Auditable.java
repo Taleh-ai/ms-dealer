@@ -20,10 +20,8 @@ public abstract class Auditable<U> {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     protected LocalDateTime createdDate;
-
     @LastModifiedBy
     protected String lastModifiedBy;
-
     @LastModifiedDate
     protected LocalDateTime lastModifiedDate;
 

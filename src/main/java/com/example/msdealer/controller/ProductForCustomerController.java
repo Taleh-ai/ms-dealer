@@ -6,6 +6,7 @@ import com.example.msdealer.exception.ResourceNotFoundException;
 import com.example.msdealer.exception.handler.SuccessDetails;
 import com.example.msdealer.service.ProductForCustomerService;
 import com.example.msdealer.service.impl.ProductForCustomerServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/product-feign")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class ProductForCustomerController {
     private final ProductForCustomerServiceImpl productForCustomerService;
 

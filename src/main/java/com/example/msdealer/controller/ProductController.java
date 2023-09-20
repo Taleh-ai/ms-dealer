@@ -25,7 +25,7 @@ public class ProductController {
         productService.createProduct(productRequestDto);
         return ResponseEntity.ok(new SuccessDetails<>("Product created Successfully!", HttpStatus.OK.value(),true));
     }
-    @PutMapping("product/{id}")
+    @PostMapping("product/{id}")
     public ResponseEntity<SuccessDetails<String>> updateProductCategory(@PathVariable(name = "id") Long id,
                                                                         @RequestBody ProductRequestDto productRequestDto)
             throws MethodArgumentNotValidException {

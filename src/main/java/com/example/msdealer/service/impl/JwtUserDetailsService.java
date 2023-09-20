@@ -22,7 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         if (dealerRepository.existsByEmail(username)) {
-            return new User(dealerRepository.findDealerEntityByEmail(username).getEmail(), dealerRepository.findDealerEntityByEmail(username).getPassword(),
+            return new User(dealerRepository.getDealerEntityByEmail(username).getEmail(), dealerRepository.getDealerEntityByEmail(username).getPassword(),
                     new ArrayList<>());
         } else if(employeeRepository.existsByEmail(username)){
             return new User(employeeRepository.findEmployeEntityByEmail(username).getEmail(), employeeRepository.findEmployeEntityByEmail(username).getPassword(),

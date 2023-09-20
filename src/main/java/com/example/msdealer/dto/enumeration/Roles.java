@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 
 public enum Roles {
-    STOCK_MANAGER("Stock Manager"),
-    ORDER_MANAGER("Order Manager"),
+    MANAGER("Manager"),
     ADMIN("Admin");
 
     private final String displayName;
@@ -16,5 +15,10 @@ public enum Roles {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    @Override
+    public String toString() {
+        return name(); // Return the name of the enum constant (e.g., "ROLE_STOCK_MANAGER") as the role name.
     }
 }

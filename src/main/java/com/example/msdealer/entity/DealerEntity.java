@@ -43,4 +43,6 @@ public class DealerEntity {
     @UpdateTimestamp
     @Column(name = "update_date")
     private Date updateDate;
+    @OneToMany(mappedBy = "dealerEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EmployeEntity> employeEntityList;
 }

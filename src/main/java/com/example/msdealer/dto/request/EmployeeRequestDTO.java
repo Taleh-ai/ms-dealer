@@ -32,5 +32,4 @@ public class EmployeeRequestDTO {
     @ValidPassword
     private String password;
 
-    private Long dealerId;
 }

@@ -67,14 +67,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				.authorizeRequests()
 				.antMatchers(AUTH_WHITELIST).permitAll()
 				.antMatchers("/v1/employee/**").hasRole("ADMIN")
 				.antMatchers("/v1/dealer/**").hasRole("ADMIN")
-				.antMatchers("/v1/product/**").hasAnyRole("ADMIN", "STOCK_MANAGER")
-				.antMatchers("/v1/register").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and().
 				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

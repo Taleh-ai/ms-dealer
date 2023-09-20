@@ -14,26 +14,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/")
-@SecurityRequirement(name = "Bearer Authentication")
-
+@RequestMapping("v1/dealer")
+@SecurityRequirement(name = "BearerAuth")
 public class DealerController {
-private final DealerServiceImpl dealerService;
+    private final DealerServiceImpl dealerService;
 
-@PutMapping("dealer")
+    @PutMapping
     public ResponseEntity<SuccessDetails<String>> updateDealer(@RequestBody DealerRequestDTO dealerRequestDTO) throws MethodArgumentNotValidException {
-    dealerService.updateDealer(dealerRequestDTO);
-    return ResponseEntity.ok(new SuccessDetails<>("Dealer infos update Successfully!", HttpStatus.OK.value(),true));
-}
+        dealerService.updateDealer(dealerRequestDTO);
+        return ResponseEntity.ok(new SuccessDetails<>("Dealer info updated successfully!", HttpStatus.OK.value(), true));
+    }
 
-    @DeleteMapping("dealer/{id}")
+    @DeleteMapping
     public ResponseEntity<SuccessDetails<String>> deleteDealer() throws MethodArgumentNotValidException {
         dealerService.deleteDealer();
-        return ResponseEntity.ok(new SuccessDetails<>("Dealer delete  Successfully!", HttpStatus.OK.value(),true));
-    }
-    @GetMapping("dealer")
-    public ResponseEntity<SuccessDetails<DealerResponseDto>> getDealer() throws MethodArgumentNotValidException {
-        return ResponseEntity.ok(new SuccessDetails<>(dealerService.getDealer(),HttpStatus.OK.value(),true));
+        return ResponseEntity.ok(new SuccessDetails<>("Dealer deleted successfully!", HttpStatus.OK.value(), true));
     }
 
+    @GetMapping
+    public ResponseEntity<SuccessDetails<DealerResponseDto>> getDealer() throws MethodArgumentNotValidException {
+        return ResponseEntity.ok(new SuccessDetails<>(dealerService.getDealer(), HttpStatus.OK.value(), true));
+    }
 }

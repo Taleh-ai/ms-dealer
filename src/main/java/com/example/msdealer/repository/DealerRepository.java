@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DealerRepository extends JpaRepository<DealerEntity,Long> {
 
-    DealerEntity findDealerEntityByEmail(String email);
+    DealerEntity getDealerEntityByEmail(String email);
     boolean existsByEmail(String email);
 }

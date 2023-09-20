@@ -18,6 +18,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -97,25 +99,23 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@SecurityRequirement(name = "Bearer Authentication")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> registerEmployee(@RequestBody EmployeeRequestDTO employeeRequestDTO)
-			throws MessagingException, IOException {
+			throws  IOException {
 		EmployeEntity entity = employeeRepository.findEmployeEntityByEmail(employeeRequestDTO.getEmail());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		DealerEntity dealerEntity = dealerRepository.findDealerEntityByEmail(userDetails.getUsername());
+		DealerEntity dealerEntity = dealerRepository.getDealerEntityByEmail(userDetails.getUsername());
 		if (entity == null) {
 			EmployeEntity employeEntity = employeeMapper.fromDto(employeeRequestDTO);
 			employeEntity.setDealerEntity(dealerEntity);
 			employeEntity.setPassword(passwordEncoder.encode(employeeRequestDTO.getPassword()));
 			employeeRepository.save(employeEntity);
-			mailService.mailSender(employeeRequestDTO.getEmail());
 
-			// Log successful employee registration
 			log.info("Employee '{}' registered successfully.", employeeRequestDTO.getEmail());
 
-			return ResponseEntity.ok("You signed!");
+			return ResponseEntity.ok("You register employee!");
 		} else {
-			// Log account existence
 			log.warn("Employee account with email '{}' already exists.", employeeRequestDTO.getEmail());
 			return ResponseEntity.ok("This account already exists in our DB!");
 		}

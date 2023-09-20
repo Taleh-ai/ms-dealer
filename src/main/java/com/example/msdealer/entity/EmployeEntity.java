@@ -7,8 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -17,7 +20,7 @@ import javax.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "employees")
 @Builder
-public class EmployeEntity  extends Auditable {
+public class EmployeEntity  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -30,4 +33,11 @@ public class EmployeEntity  extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealer_id" ,referencedColumnName = "id")
     DealerEntity dealerEntity;
+    @CreationTimestamp
+    @Column(name = "creation_date")
+    private Date creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "update_date")
+    private Date updateDate;
 }

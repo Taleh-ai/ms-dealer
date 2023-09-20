@@ -1,5 +1,6 @@
 package com.example.msdealer.mapper;
 
+import com.example.msdealer.dto.enumeration.Roles;
 import com.example.msdealer.dto.request.EmployeeRequestDTO;
 import com.example.msdealer.dto.response.EmployeeResponseDto;
 import com.example.msdealer.entity.EmployeEntity;
@@ -16,7 +17,7 @@ public class EmployeeMapper {
      return    EmployeEntity.builder()
                 .name(employeeRequestDTO.getName())
                 .surname(employeeRequestDTO.getSurname())
-                .role(employeeRequestDTO.getRole())
+                .role(Roles.MANAGER)
                 .email(employeeRequestDTO.getEmail())
                 .build();
     }
@@ -30,10 +31,8 @@ public class EmployeeMapper {
                 .password(entity.getPassword())
                 .dealerId(entity.getDealerEntity().getId())
                 .id(entity.getId())
-             .createdBy(entity.getCreatedBy())
-             .createdDate(entity.getCreatedDate())
-             .lastModifiedBy(entity.getLastModifiedBy())
-             .lastModifiedDate(entity.getLastModifiedDate())
+             .createdDate(entity.getCreationDate())
+             .lastModifiedDate(entity.getUpdateDate())
                 .build();
     }
     public List<EmployeeResponseDto> toDtoList(List<EmployeEntity> employeEntityList){
