@@ -15,18 +15,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/")
+@RequestMapping("v1/product-category")
 @SecurityRequirement(name = "Bearer Authentication")
 public class ProductCategoryController {
 private final ProductCategoryServiceImpl productCategoryService;
 
 
-    @PutMapping("product-category")
+    @PutMapping
     public ResponseEntity<SuccessDetails<String>> addProductCategory(@RequestBody ProductCategoryRequsetDto productCategoryRequsetDto) throws MethodArgumentNotValidException {
         productCategoryService.createProductCategory(productCategoryRequsetDto);
         return ResponseEntity.ok(new SuccessDetails<>("Product category created Successfully!", HttpStatus.OK.value(),true));
     }
-    @PutMapping("product-category/{id}")
+    @PostMapping("{id}")
     public ResponseEntity<SuccessDetails<String>> updateProductCategory(@PathVariable(name = "id") Long id,
                                                                         @RequestBody ProductCategoryRequsetDto productCategoryRequsetDto)
             throws MethodArgumentNotValidException {
@@ -34,17 +34,17 @@ private final ProductCategoryServiceImpl productCategoryService;
         return ResponseEntity.ok(new SuccessDetails<>("Product Category updated Successfully!", HttpStatus.OK.value(),true));
     }
 
-    @DeleteMapping("product-category/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<SuccessDetails<String>> deleteProductCategory(@PathVariable(name = "id") Long id) throws MethodArgumentNotValidException {
         productCategoryService.deleteProductCategory(id);
         return ResponseEntity.ok(new SuccessDetails<>("Product Category deleted  Successfully!", HttpStatus.OK.value(),true));
     }
-    @GetMapping("product-category/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<SuccessDetails<ProductCategoryResponseDto>> getProductCategory(@PathVariable(name = "id") Long id) throws MethodArgumentNotValidException {
         return ResponseEntity.ok(new SuccessDetails<>(productCategoryService.getProductCategoryById(id),HttpStatus.OK.value(),true));
     }
 
-    @GetMapping("product-category")
+    @GetMapping
     public ResponseEntity<SuccessDetails<List<ProductCategoryResponseDto>>> getProductCategories() throws MethodArgumentNotValidException {
         return ResponseEntity.ok(new SuccessDetails<>(productCategoryService.getAllProductCategories(),HttpStatus.OK.value(),true));
     }

@@ -15,29 +15,29 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/")
+@RequestMapping("v1/employee")
 @SecurityRequirement(name = "Bearer Authentication")
 public class EmployeeController {
 
     private  final EmployeeService employeeService;
 
-    @PutMapping("employee/{id}")
+    @PostMapping("{id}")
     public ResponseEntity<SuccessDetails<String>> updateEmployee(@PathVariable(name = "id") Long id,@RequestBody EmployeeRequestDTO employeeRequestDTO) throws MethodArgumentNotValidException {
         employeeService.updateEmployee(id,employeeRequestDTO);
         return ResponseEntity.ok(new SuccessDetails<>("Employee infos updated Successfully!", HttpStatus.OK.value(),true));
     }
 
-    @DeleteMapping("employee/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<SuccessDetails<String>> deleteEmployee(@PathVariable(name = "id") Long id) throws MethodArgumentNotValidException {
         employeeService.deleteEmployee(id);
         return ResponseEntity.ok(new SuccessDetails<>("Employee deleted  Successfully!", HttpStatus.OK.value(),true));
     }
-    @GetMapping("employee/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<SuccessDetails<EmployeeResponseDto>> getEmployee(@PathVariable(name = "id") Long id) throws MethodArgumentNotValidException {
         return ResponseEntity.ok(new SuccessDetails<>(employeeService.getEmployee(id),HttpStatus.OK.value(),true));
     }
 
-    @GetMapping("employee")
+    @GetMapping
     public ResponseEntity<SuccessDetails<List<EmployeeResponseDto>>> getEmployees() throws MethodArgumentNotValidException {
         return ResponseEntity.ok(new SuccessDetails<>(employeeService.getEmployees(),HttpStatus.OK.value(),true));
     }
