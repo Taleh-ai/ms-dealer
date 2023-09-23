@@ -14,12 +14,8 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductFilterRequestDto {
-    private String name;
-    private String brand;
     private Integer minQuantity;
     private Integer maxQuantity;
     private Double minAmount;
     private Double maxAmount;
-    private Long categoryName;
-    private Long dealerName;
 }

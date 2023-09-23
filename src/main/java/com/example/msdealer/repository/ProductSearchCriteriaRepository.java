@@ -2,16 +2,14 @@ package com.example.msdealer.repository;
 
 import com.example.msdealer.dto.request.PageSizeDto;
 import com.example.msdealer.dto.request.ProductFilterRequestDto;
+import com.example.msdealer.entity.ProductCategoryEntity;
 import com.example.msdealer.entity.ProductEntity;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +28,10 @@ public class ProductSearchCriteriaRepository {
     public Page<ProductEntity> findAllWithFilters(PageSizeDto pageSizeDto,
                                                   ProductFilterRequestDto productFilterRequestDto){
         CriteriaQuery<ProductEntity> criteriaQuery = criteriaBuilder.createQuery(ProductEntity.class);
-        Root<ProductEntity> employeeRoot = criteriaQuery.from(ProductEntity.class);
-        Predicate predicate = getPredicate(productFilterRequestDto, employeeRoot);
+        Root<ProductEntity> productEntityRoot = criteriaQuery.from(ProductEntity.class);
+        Predicate predicate = getPredicate(productFilterRequestDto, productEntityRoot);
         criteriaQuery.where(predicate);
-        setOrder(pageSizeDto, criteriaQuery, employeeRoot);
+        setOrder(pageSizeDto, criteriaQuery, productEntityRoot);
 
         TypedQuery<ProductEntity> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult(pageSizeDto.getPageNumber() * pageSizeDto.getPageSize());
@@ -41,53 +39,36 @@ public class ProductSearchCriteriaRepository {
 
         Pageable pageable = getPageable(pageSizeDto);
 
-        long employeesCount = getEmployeesCount(predicate);
+        long productsCount = getProductsCount(predicate);
 
-        return new PageImpl<>(typedQuery.getResultList(), pageable, employeesCount);
+        return new PageImpl<>(typedQuery.getResultList(), pageable, productsCount);
     }
 
     private Predicate getPredicate(ProductFilterRequestDto productFilterRequestDto,
-                                   Root<ProductEntity> employeeRoot) {
+                                   Root<ProductEntity> productEntityRoot) {
         List<Predicate> predicates = new ArrayList<>();
-        if(Objects.nonNull(productFilterRequestDto.getName())){
+
+        if (Objects.nonNull(productFilterRequestDto.getMaxQuantity())) {
             predicates.add(
-                    criteriaBuilder.like(employeeRoot.get("name"),
-                            "%" + productFilterRequestDto.getName() + "%")
+                    criteriaBuilder.lessThanOrEqualTo(productEntityRoot.get("quantity"),
+                            productFilterRequestDto.getMaxQuantity())
             );
         }
-        if(Objects.nonNull(productFilterRequestDto.getBrand())){
+        if (Objects.nonNull(productFilterRequestDto.getMinQuantity())) {
             predicates.add(
-                    criteriaBuilder.like(employeeRoot.get("brand"),
-                            "%" + productFilterRequestDto.getBrand() + "%")
-            );
-        }
-        if(Objects.nonNull(productFilterRequestDto.getCategoryName())){
-            predicates.add(
-                    criteriaBuilder.like(employeeRoot.get("categoryName"),
-                            "%" + productFilterRequestDto.getCategoryName()+ "%")
-            );
-        }
-        if(Objects.nonNull(productFilterRequestDto.getMaxQuantity())){
-            predicates.add(
-                    criteriaBuilder.lessThanOrEqualTo(employeeRoot.get("maxQuantity"),
-                              productFilterRequestDto.getMaxQuantity())
-            );
-        }
-        if(Objects.nonNull(productFilterRequestDto.getMinQuantity())){
-            predicates.add(
-                    criteriaBuilder.greaterThanOrEqualTo(employeeRoot.get("minQuantity"),
+                    criteriaBuilder.greaterThanOrEqualTo(productEntityRoot.get("quantity"),
                             productFilterRequestDto.getMinQuantity())
             );
         }
-        if(Objects.nonNull(productFilterRequestDto.getMinAmount())){
+        if (Objects.nonNull(productFilterRequestDto.getMinAmount())) {
             predicates.add(
-                    criteriaBuilder.greaterThanOrEqualTo(employeeRoot.get("minAmount"),
+                    criteriaBuilder.greaterThanOrEqualTo(productEntityRoot.get("price"),
                             productFilterRequestDto.getMinAmount())
             );
         }
-        if(Objects.nonNull(productFilterRequestDto.getMaxAmount())){
+        if (Objects.nonNull(productFilterRequestDto.getMaxAmount())) {
             predicates.add(
-                    criteriaBuilder.lessThanOrEqualTo(employeeRoot.get("maxAmount"),
+                    criteriaBuilder.lessThanOrEqualTo(productEntityRoot.get("price"),
                             productFilterRequestDto.getMaxAmount())
             );
         }
@@ -98,19 +79,19 @@ public class ProductSearchCriteriaRepository {
     private void setOrder(PageSizeDto pageSizeDto,
                           CriteriaQuery<ProductEntity> criteriaQuery,
                           Root<ProductEntity> productEntityRoot) {
-        if(pageSizeDto.getSortDirection().equals(Sort.Direction.ASC)){
+        if (pageSizeDto.getSortDirection().equals(Sort.Direction.ASC)) {
             criteriaQuery.orderBy(criteriaBuilder.asc(productEntityRoot.get(pageSizeDto.getSortBy())));
         } else {
             criteriaQuery.orderBy(criteriaBuilder.desc(productEntityRoot.get(pageSizeDto.getSortBy())));
         }
     }
 
-    private Pageable getPageable(PageSizeDto employeePage) {
-        Sort sort = Sort.by(employeePage.getSortDirection(), employeePage.getSortBy());
-        return PageRequest.of(employeePage.getPageNumber(),employeePage.getPageSize(), sort);
+    private Pageable getPageable(PageSizeDto pageSizeDto) {
+        Sort sort = Sort.by(pageSizeDto.getSortDirection(), pageSizeDto.getSortBy());
+        return PageRequest.of(pageSizeDto.getPageNumber(), pageSizeDto.getPageSize(), sort);
     }
 
-    private long getEmployeesCount(Predicate predicate) {
+    private long getProductsCount(Predicate predicate) {
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
         Root<ProductEntity> countRoot = countQuery.from(ProductEntity.class);
         countQuery.select(criteriaBuilder.count(countRoot)).where(predicate);

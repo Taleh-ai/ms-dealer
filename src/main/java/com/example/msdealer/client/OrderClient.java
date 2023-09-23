@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "order-service", url = "http://localhost:8080")
+@FeignClient(name = "mscustomer", url = "http://localhost:8080/v1/orders-feign")
 public interface OrderClient {
 
-    @PutMapping("/v1/orders/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<SuccessDetails<String>> cancelOrder(@PathVariable("id") Long id);
 
-    @GetMapping("/v1/orders")
+    @GetMapping
     ResponseEntity<SuccessDetails<List<OrderResponseDto>>> getAllOrders();
 
-    @GetMapping("/v1/orders/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<SuccessDetails<OrderResponseDto>> getOrder(@PathVariable("id") Long id);
 
-    @PutMapping("/v1/orders/dealer/{id}")
+    @PutMapping("/update/{id}")
     ResponseEntity<SuccessDetails<String>> updateOrder(
             @PathVariable("id") Long id,
             @RequestParam("orderStatus") OrderStatus orderStatus

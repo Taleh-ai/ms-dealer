@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <include file="/dblogs/changelog/changes/1-create-stakeholders-table-changelog.sql"/>
+    <include file="/dblogs/changelog/changes/2-create-employees-table-changelog.sql"/>
+    <include file="/dblogs/changelog/changes/3-create-products_category-table-changelog.sql"/>
+    <include file="/dblogs/changelog/changes/4-create-products-table-changelog.sql"/>
+
+
+</databaseChangeLog>

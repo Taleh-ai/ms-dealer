@@ -1,12 +1,34 @@
 package com.example.msdealer.dto.request;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+
 public class PageSizeDto {
+    @Min(value = 0, message = "Page number must be greater than or equal to 0")
     private int pageNumber = 0;
+
+    @Min(value = 1, message = "Page size must be greater than or equal to 1")
+    @Max(value = 100, message = "Page size must be less than or equal to 100")
     private int pageSize = 10;
+
+    @NotNull(message = "Sort direction cannot be null")
     private Sort.Direction sortDirection = Sort.Direction.ASC;
-    private String sortBy = "name";
+
+    @Pattern(regexp = "^(creationDate|anotherAttribute)$", message = "Invalid sortBy value")
+    private String sortBy = "creationDate";
+
+    public PageSizeDto(int pageNumber, int pageSize, Sort.Direction sortDirection, String sortBy) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.sortDirection = sortDirection;
+        this.sortBy = sortBy;
+    }
 
     public int getPageNumber() {
         return pageNumber;

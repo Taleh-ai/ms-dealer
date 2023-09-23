@@ -13,12 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+
 @Component
 public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -2550185165626007488L;
 
-	public static final long JWT_TOKEN_VALIDITY = 5*60*60;
+	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -33,6 +35,10 @@ public class JwtTokenUtil implements Serializable {
 
 	public Date getExpirationDateFromToken(String token) {
 		return getClaimFromToken(token, Claims::getExpiration);
+	}
+
+	public String getUserRoleFromToken(String token) {
+		return (String) getClaimFromToken(token, claims -> claims.get("role"));
 	}
 
 	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -50,27 +56,31 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	private Boolean ignoreTokenExpiration(String token) {
-		// here you specify tokens, for that the expiration is ignored
+		// here you specify tokens, for which the expiration is ignored
 		return false;
 	}
 
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(UserDetails userDetails, String role) {
 		Map<String, Object> claims = new HashMap<>();
+		claims.put("role", role); // Add the user's role to claims
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
-
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY*1000)).signWith(SignatureAlgorithm.HS512, secret).compact();
+		return Jwts.builder().setClaims(claims).setSubject(subject)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+				.signWith(SignatureAlgorithm.HS512, secret)
+				.compact();
 	}
 
 	public Boolean canTokenBeRefreshed(String token) {
 		return (!isTokenExpired(token) || ignoreTokenExpiration(token));
 	}
 
-	public Boolean validateToken(String token, UserDetails userDetails) {
+	public Boolean validateToken(String token, UserDetails userDetails, String role) {
 		final String username = getUsernameFromToken(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		final String userRole = getUserRoleFromToken(token);
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token) && role.equals(userRole));
 	}
 }

@@ -4,8 +4,9 @@ import com.example.msdealer.dto.response.ProductResponseDto;
 import com.example.msdealer.exception.MethodArgumentNotValidException;
 import com.example.msdealer.exception.ResourceNotFoundException;
 import com.example.msdealer.exception.handler.SuccessDetails;
-import com.example.msdealer.service.ProductForCustomerService;
 import com.example.msdealer.service.impl.ProductForCustomerServiceImpl;
+
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/product-feign")
+@RequestMapping("v1/product-feign")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
+@Hidden
 public class ProductForCustomerController {
     private final ProductForCustomerServiceImpl productForCustomerService;
 
@@ -33,7 +35,7 @@ public class ProductForCustomerController {
         return ResponseEntity.ok(new SuccessDetails<>(product, HttpStatus.OK.value(), true));
     }
 
-    @PutMapping("/{id}/stock")
+    @PutMapping("/stock/{id}")
     public ResponseEntity<SuccessDetails<String>> updateProductStock(@PathVariable Long id,
                                                                      @RequestParam int quantity)
             throws MethodArgumentNotValidException, ResourceNotFoundException {
@@ -41,7 +43,7 @@ public class ProductForCustomerController {
         return ResponseEntity.ok(new SuccessDetails<>("Product stock updated successfully!", HttpStatus.OK.value(), true));
     }
 
-    @GetMapping("/{id}/price")
+    @GetMapping("/price/{id}")
     public ResponseEntity<SuccessDetails<Double>> getProductPriceById(@PathVariable Long id) throws ResourceNotFoundException {
         Double price = productForCustomerService.getPrice(id);
         return ResponseEntity.ok(new SuccessDetails<>(price, HttpStatus.OK.value(), true));

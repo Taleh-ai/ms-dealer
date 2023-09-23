@@ -44,7 +44,6 @@ public class JwtAuthenticationController {
 
 	private final AuthenticationManager authenticationManager;
 	private final JwtTokenUtil jwtTokenUtil;
-	private final MailService mailService;
 	private final UserDetailsService jwtInMemoryUserDetailsService;
 	private final PasswordEncoder passwordEncoder;
 	private final DealerRepository dealerRepository;
@@ -58,7 +57,11 @@ public class JwtAuthenticationController {
 		try {
 			authenticate(request.getEmail(), request.getPassword());
 			UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(request.getEmail());
-			String token = jwtTokenUtil.generateToken(userDetails);
+
+			// Get the user's role from the request or from your application logic
+			String role = request.getRole(); // or retrieve it from your application
+
+			String token = jwtTokenUtil.generateToken(userDetails, role); // Pass the role to generateToken
 
 			// Log successful sign-in
 			log.info("User '{}' signed in successfully.", request.getEmail());
@@ -67,7 +70,7 @@ public class JwtAuthenticationController {
 					.token(token)
 					.email(request.getEmail())
 					.password(request.getPassword())
-					.role(request.getRole())
+					.role(role) // Set the role in the response DTO
 					.build();
 
 			return signInResponseDto.toString();
@@ -77,6 +80,7 @@ public class JwtAuthenticationController {
 			throw e;
 		}
 	}
+
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ResponseEntity<?> signUp(@RequestBody DealerRequestDTO dto) throws MessagingException, IOException {
@@ -99,7 +103,6 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@SecurityRequirement(name = "Bearer Authentication")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> registerEmployee(@RequestBody EmployeeRequestDTO employeeRequestDTO)
 			throws  IOException {
 		EmployeEntity entity = employeeRepository.findEmployeEntityByEmail(employeeRequestDTO.getEmail());

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,14 +22,14 @@ public class ProductCategoryController {
 private final ProductCategoryServiceImpl productCategoryService;
 
 
-    @PutMapping
-    public ResponseEntity<SuccessDetails<String>> addProductCategory(@RequestBody ProductCategoryRequsetDto productCategoryRequsetDto) throws MethodArgumentNotValidException {
+    @PostMapping
+    public ResponseEntity<SuccessDetails<String>> addProductCategory(@Valid @RequestBody ProductCategoryRequsetDto productCategoryRequsetDto) throws MethodArgumentNotValidException {
         productCategoryService.createProductCategory(productCategoryRequsetDto);
         return ResponseEntity.ok(new SuccessDetails<>("Product category created Successfully!", HttpStatus.OK.value(),true));
     }
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     public ResponseEntity<SuccessDetails<String>> updateProductCategory(@PathVariable(name = "id") Long id,
-                                                                        @RequestBody ProductCategoryRequsetDto productCategoryRequsetDto)
+                                                                        @Valid @RequestBody ProductCategoryRequsetDto productCategoryRequsetDto)
             throws MethodArgumentNotValidException {
         productCategoryService.updateProductCategory(id,productCategoryRequsetDto);
         return ResponseEntity.ok(new SuccessDetails<>("Product Category updated Successfully!", HttpStatus.OK.value(),true));

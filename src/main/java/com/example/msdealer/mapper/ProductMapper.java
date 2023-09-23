@@ -43,6 +43,8 @@ public class ProductMapper {
                 .category(productEntity.getProductCategoryEntity().getCategory())
                 .dealerId(productEntity.getDealerEntity().getId())
                 .id(productEntity.getId())
+                .creationDate(productEntity.getCreationDate())
+                .updateDate(productEntity.getUpdateDate())
                 .build();
 
         if (productEntity.getQuantity()>=10){

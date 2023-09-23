@@ -4,6 +4,7 @@ import com.example.msdealer.client.OrderClient;
 import com.example.msdealer.dto.enumeration.OrderStatus;
 import com.example.msdealer.dto.response.OrderResponseDto;
 import com.example.msdealer.exception.handler.SuccessDetails;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/order")
+@SecurityRequirement(name = "Bearer Authentication")
 public class OrderController {
 private final OrderClient orderClient;
     @PutMapping("{id}")

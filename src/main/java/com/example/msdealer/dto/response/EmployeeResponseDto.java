@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class EmployeeResponseDto {
     private String password;
     private Long dealerId;
     protected String createdBy;
-    protected Date createdDate;
+    protected LocalDateTime createdDate;
     protected String lastModifiedBy;
-    protected Date lastModifiedDate;
+    protected LocalDateTime lastModifiedDate;
 }

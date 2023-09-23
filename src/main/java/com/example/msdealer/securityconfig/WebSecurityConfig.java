@@ -23,13 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-
 	private final UserDetailsService jwtUserDetailsService;
-
-
 	private final JwtRequestFilter jwtRequestFilter;
 
 	@Autowired
@@ -50,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
+
 	private static final String[] AUTH_WHITELIST = {
 			"/v2/api-docs",
 			"/swagger-resources",
@@ -62,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			"/swagger-ui/**",
 			"/v1/signup",
 			"/v1/signin",
-
+			"/v1/product-feign/**"
 	};
 
 	@Override
@@ -70,12 +66,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				.authorizeRequests()
 				.antMatchers(AUTH_WHITELIST).permitAll()
-				.antMatchers("/v1/employee/**").hasRole("ADMIN")
-				.antMatchers("/v1/dealer/**").hasRole("ADMIN")
+				.antMatchers("v1/employee/**").hasRole("ADMIN")
+				.antMatchers("v1/dealer/**").hasRole("ADMIN")
+				.antMatchers("v1/employee", "v1/dealer").hasRole("ADMIN")
 				.anyRequest().authenticated()
-				.and().
-				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.and()
+				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+				.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }

@@ -1,5 +1,6 @@
 package com.example.msdealer.service;
 
+import com.example.msdealer.dto.request.ChangePasswordRequest;
 import com.example.msdealer.dto.request.DealerRequestDTO;
 import com.example.msdealer.dto.request.EmployeeRequestDTO;
 import com.example.msdealer.dto.response.DealerResponseDto;
@@ -15,4 +16,5 @@ public interface EmployeeService {
     EmployeeResponseDto getEmployee(Long id);
 
     public List<EmployeeResponseDto> getEmployees();
+    public void changePassword(ChangePasswordRequest request) throws MethodArgumentNotValidException;
 }

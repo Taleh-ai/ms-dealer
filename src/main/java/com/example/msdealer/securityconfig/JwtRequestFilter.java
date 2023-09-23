@@ -20,9 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-
 	private final JwtUserDetailsService jwtUserDetailsService;
-
 	private final JwtTokenUtil jwtTokenUtil;
 
 	@Override
@@ -33,11 +31,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		String username = null;
 		String jwtToken = null;
+		String userRole = null; // Initialize userRole variable
+
 		// JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+				userRole = jwtTokenUtil.getUserRoleFromToken(jwtToken); // Extract user role
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {
@@ -47,14 +48,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			logger.warn("JWT Token does not begin with Bearer String");
 		}
 
-		//Once we get the token validate it.
+		// Once we get the token, validate it.
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
-			// if token is valid configure Spring Security to manually set authentication
-			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-
+			// If the token is valid and the user has the appropriate role, configure Spring Security to manually set authentication
+			if (jwtTokenUtil.validateToken(jwtToken, userDetails, userRole)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 				usernamePasswordAuthenticationToken
@@ -66,5 +66,4 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		}
 		chain.doFilter(request, response);
 	}
-
 }

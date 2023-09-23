@@ -1,7 +1,7 @@
 package com.example.msdealer.entity;
 
-import com.example.msdealer.util.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.example.msdealer.util.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -28,20 +29,19 @@ public class ProductEntity  {
     private String name;
     private String brand;
     private String  description;
-    private int quantity;
+    private Integer quantity;
     private Double price;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     ProductCategoryEntity productCategoryEntity;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealer_id")
     DealerEntity dealerEntity;
     @CreationTimestamp
     @Column(name = "creation_date")
-    private Date creationDate;
-
+    private LocalDateTime creationDate;
     @UpdateTimestamp
     @Column(name = "update_date")
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
 }

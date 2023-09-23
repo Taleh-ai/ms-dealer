@@ -1,7 +1,8 @@
 package com.example.msdealer.entity;
 
 import com.example.msdealer.dto.enumeration.Roles;
-import com.example.msdealer.util.Auditable;
+import com.example.msdealer.util.AuditableEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -32,12 +33,13 @@ public class EmployeEntity  {
     String password;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealer_id" ,referencedColumnName = "id")
+    @JsonIgnore
     DealerEntity dealerEntity;
     @CreationTimestamp
     @Column(name = "creation_date")
-    private Date creationDate;
-
+    private LocalDateTime creationDate;
     @UpdateTimestamp
     @Column(name = "update_date")
-    private Date updateDate;
+    private LocalDateTime updateDate;
+
 }

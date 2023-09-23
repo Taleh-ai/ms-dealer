@@ -1,5 +1,7 @@
 package com.example.msdealer.service.impl;
 
+import com.example.msdealer.dto.request.ChangePasswordRequest;
+import com.example.msdealer.dto.response.AfterSignInResponseDto;
 import com.example.msdealer.mapper.EmployeeMapper;
 import com.example.msdealer.dto.request.EmployeeRequestDTO;
 import com.example.msdealer.dto.response.EmployeeResponseDto;
@@ -12,7 +14,9 @@ import com.example.msdealer.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,12 +43,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeEntity.setName(employeeRequestDTO.getName());
         employeEntity.setSurname(employeeRequestDTO.getSurname());
 
-        if (!passwordEncoder.matches(employeeRequestDTO.getPassword(), employeEntity.getPassword())) {
-            employeEntity.setPassword(passwordEncoder.encode(employeeRequestDTO.getPassword()));
-        } else {
-            logger.error("New password can't be same with old password for employee ID: {}", id);
-            throw new MethodArgumentNotValidException("New password can't be same with old password");
-        }
 
         employeeRepository.save(employeEntity);
         logger.info("Employee with ID {} updated successfully", id);
@@ -77,5 +75,27 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.info("Fetched {} employees for dealer with ID: {}", employeEntityList.size(), dealerEntity.getId());
         return employeeMapper.toDtoList(employeEntityList);
     }
-}
+
+    @Override
+    public void changePassword(ChangePasswordRequest request) throws MethodArgumentNotValidException {
+
+            EmployeEntity user = employeeRepository.findEmployeEntityByEmail(request.getUsername());
+
+            // Log the password change action
+            logger.info("Changing password for user with email: {}", request.getUsername());
+
+            if (passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+                // If the old password matches, update the password
+                user.setPassword(passwordEncoder.encode(request.getNewPassword())); // Encode and set the new password
+                employeeRepository.save(user);
+
+
+            } else {
+                // Log the invalid credentials
+                logger.error("Invalid credentials for user with email: {}", request.getUsername());
+                throw new MethodArgumentNotValidException("Invalid credentials");
+            }
+        }
+    }
+
 
